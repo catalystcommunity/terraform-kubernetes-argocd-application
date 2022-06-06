@@ -1,3 +1,39 @@
+# terraform-k8s-argocd-application
+
+This module deploys an ArgoCD application custom resource. It utilizes the
+[kubectl provider](https://github.com/gavinbunney/terraform-provider-kubectl)
+instead of the official Kubernetes provider to mitigate common problems with
+custom resources in Terraform, such as:
+* Required API access during planning time, requiring multiple terraform states
+  in order to deploy an application to Kubernetes.
+* Sensitive values are displayed in logs, 
+  [ref](https://github.com/hashicorp/terraform-provider-kubernetes/issues/1728).
+
+## Example Implementations
+
+### Basic
+
+You can make use of the built-in [templatefile()](https://www.terraform.io/language/functions/templatefile)
+function to easily add secret values to the platform_services_values if secret
+configuration is required.
+```terraform
+provider "kubectl" {
+  # provider configuration ...
+}
+
+module "my_app" {
+  source = "github.com/catalystsquad/terraform-k8s-argocd-application"
+
+  name            = "my-app"
+  source_chart    = "my-app"
+  source_repo_url = "https://example.com/repository"
+  helm_values     = templatefile("./helm-values/my-application-values.yaml", {
+    "exampleSecretInput" : var.example_secret
+  })
+}
+```
+
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
