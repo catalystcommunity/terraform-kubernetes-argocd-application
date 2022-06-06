@@ -22,28 +22,31 @@ variable "helm_values" {
 }
 
 variable "source_target_revision" {
-  type    = string
-  default = ">=1.0.0"
+  description = "Target revision of the helm chart"
+  type        = string
+  default     = ">=1.0.0"
 }
 
 variable "spec_override" {
-  type    = map(any)
-  default = {}
+  description = "Application spec override. Gets merged with the default applcation spec that's generated from existing variables. Allows specifying configuration that is not specifically implemented by this module."
+  type        = map(any)
+  default     = {}
 }
 
 variable "sync_policy" {
-  type         = object({
-    automated  = object({
+  description = "ArgoCD application sync policy. Defaults to a frequent automatic sync."
+  type = object({
+    automated = object({
       prune    = bool
       selfHeal = bool
     })
-    retry           = object({
-      backoff       = object({
+    retry = object({
+      backoff = object({
         duration    = string
         factor      = number
         maxDuration = string
       })
-      limit   = number
+      limit = number
     })
     syncOptions = list(string)
   })
@@ -68,7 +71,14 @@ variable "sync_policy" {
   }
 }
 
+variable "project" {
+  description = "ArgoCD project to associate the application to"
+  type        = string
+  default     = "default"
+}
+
 variable "namespace" {
-  type    = string
-  default = "argo-cd"
+  description = "Namespace to deploy the ArgoCD application custom resource. Should be in the same namespace as ArgoCD."
+  type        = string
+  default     = "argo-cd"
 }

@@ -5,7 +5,7 @@ locals {
       "namespace" = "argo-cd"
       "server"    = "https://kubernetes.default.svc"
     }
-    "project" = "default"
+    "project" = var.project
     "source" = {
       "repoURL" = var.source_repo_url
       "chart"   = var.source_chart
