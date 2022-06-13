@@ -1,4 +1,4 @@
-# terraform-k8s-argocd-application
+# terraform-kubernetes-argocd-application
 
 This module deploys an ArgoCD application custom resource. It utilizes the
 [kubectl provider](https://github.com/gavinbunney/terraform-provider-kubectl)
@@ -22,7 +22,7 @@ provider "kubectl" {
 }
 
 module "my_app" {
-  source = "github.com/catalystsquad/terraform-k8s-argocd-application"
+  source = "catalystsquad/argocd-application/kubernetes"
 
   name            = "my-app"
   source_chart    = "my-app"
