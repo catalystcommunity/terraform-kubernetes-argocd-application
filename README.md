@@ -22,7 +22,7 @@ provider "kubectl" {
 }
 
 module "my_app" {
-  source = "catalystsquad/argocd-application/kubernetes"
+  source = "catalystcommunity/argocd-application/kubernetes"
 
   name            = "my-app"
   source_chart    = "my-app"
